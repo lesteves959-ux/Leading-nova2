@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Renove — Do Brasil Para a Europa</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:#0D1B2A;color:#FFFFFF;overflow-x:hidden}
+
+/* ── NOISE OVERLAY ── */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:1000;opacity:.4
+}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:900;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1rem 3rem;
+  background:linear-gradient(to bottom,rgba(13,27,42,.95),transparent);
+  backdrop-filter:blur(4px)
+}
+.nav-logo{display:flex;align-items:center;gap:.75rem}
+.nav-logo-mark{
+  width:36px;height:36px;border:2px solid #C9A84C;
+  display:flex;align-items:center;justify-content:center;
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;font-weight:800;
+  font-size:1.1rem;color:#C9A84C;letter-spacing:.05em
+}
+.nav-brand{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;font-weight:700;
+  font-size:1.1rem;letter-spacing:.2em;color:#FFFFFF}
+.nav-cta{
+  background:#C9A84C;color:#0D1B2A;
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;font-weight:700;font-size:.8rem;
+  letter-spacing:.1em;text-transform:uppercase;
+  padding:.55rem 1.4rem;text-decoration:none;
+  transition:all .2s
+}
+.nav-cta:hover{background:#E8C97A}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;position:relative;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:6rem 2rem 4rem;
+  overflow:hidden
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(201,168,76,.08) 0%,transparent 70%),
+             radial-gradient(ellipse 50% 40% at 20% 80%,rgba(27,79,114,.15) 0%,transparent 60%),
+             linear-gradient(160deg,#0D1B2A 0%,#0a1520 100%);
+}
+.hero-stars{position:absolute;inset:0;overflow:hidden}
+.star{
+  position:absolute;background:#C9A84C;border-radius:50%;
+  animation:twinkle 3s ease-in-out infinite alternate
+}
+@keyframes twinkle{0%{opacity:.2;transform:scale(1)}100%{opacity:.9;transform:scale(1.3)}}
+
+/* EU ring */
+.eu-ring{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:600px;height:600px;border-radius:50%;
+  border:1px solid rgba(201,168,76,.08);
+  animation:ring-spin 60s linear infinite
+}
+.eu-ring::after{
+  content:'';position:absolute;inset:-40px;border-radius:50%;
+  border:1px solid rgba(201,168,76,.05)
+}
+@keyframes ring-spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+
+.hero-eyebrow{
+  position:relative;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;
+  font-weight:600;font-size:.85rem;letter-spacing:.35em;
+  color:#C9A84C;text-transform:uppercase;margin-bottom:1.5rem;
+  opacity:0;animation:fade-up .8s .2s forwards
+}
+.hero-flag-row{
+  position:relative;display:flex;align-items:center;gap:1.5rem;
+  justify-content:center;margin-bottom:1.8rem;
+  opacity:0;animation:fade-up .8s .35s forwards
+}
+.flag-item{display:flex;flex-direction:column;align-items:center;gap:.4rem}
+.flag-emoji{font-size:2.2rem;filter:drop-shadow(0 0 12px rgba(201,168,76,.3))}
+.flag-label{font-size:.65rem;letter-spacing:.2em;color:#888888;text-transform:uppercase}
+.arrow-sep{font-size:1.8rem;color:#C9A84C;opacity:.7}
+
+.hero-title{
+  position:relative;
+  font-family:'Georgia',serif;font-weight:700;
+  font-size:clamp(3rem,8vw,7rem);line-height:.95;
+  margin-bottom:1.2rem;
+  opacity:0;animation:fade-up .8s .5s forwards
+}
+.hero-title span{color:#C9A84C;font-style:italic}
+.hero-subtitle{
+  position:relative;font-size:1.05rem;font-weight:300;
+  color:rgba(255,255,255,.7);max-width:580px;line-height:1.7;
+  margin-bottom:2.5rem;
+  opacity:0;animation:fade-up .8s .65s forwards
+}
+.hero-cta-group{
+  position:relative;display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;
+  opacity:0;animation:fade-up .8s .8s forwards
+}
+.btn-primary{
+  background:#C9A84C;color:#0D1B2A;
+  font-weight:700;font-size:.9rem;letter-spacing:.1em;text-transform:uppercase;
+  padding:.9rem 2.2rem;text-decoration:none;
+  display:inline-flex;align-items:center;gap:.6rem;
+  transition:all .25s;border:2px solid #C9A84C
+}
+.btn-primary:hover{background:#E8C97A;border-color:#E8C97A;transform:translateY(-2px)}
+.btn-secondary{
+  background:transparent;color:#FFFFFF;
+  font-weight:600;font-size:.9rem;letter-spacing:.1em;text-transform:uppercase;
+  padding:.9rem 2.2rem;text-decoration:none;
+  border:2px solid rgba(255,255,255,.25);
+  transition:all .25s
+}
+.btn-secondary:hover{border-color:#C9A84C;color:#C9A84C}
+
+.hero-badge{
+  position:relative;margin-top:3rem;
+  display:flex;align-items:center;gap:2rem;flex-wrap:wrap;justify-content:center;
+  opacity:0;animation:fade-up .8s 1s forwards
+}
+.badge-item{display:flex;align-items:center;gap:.5rem;font-size:.8rem;color:rgba(255,255,255,.5)}
+.badge-item strong{color:#C9A84C;font-size:1rem}
+.badge-sep{width:1px;height:24px;background:rgba(255,255,255,.1)}
+
+@keyframes fade-up{
+  from{opacity:0;transform:translateY(24px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ── GOLD LINE ── */
+.gold-line{height:1px;background:linear-gradient(to right,transparent,#C9A84C,transparent)}
+
+/* ── SECTION BASE ── */
+section{padding:6rem 2rem;position:relative}
+.container{max-width:1100px;margin:0 auto}
+.section-label{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;font-weight:600;
+  font-size:.78rem;letter-spacing:.35em;color:#C9A84C;
+  text-transform:uppercase;margin-bottom:.8rem
+}
+.section-title{
+  font-family:'Georgia',serif;font-weight:700;
+  font-size:clamp(2.2rem,4vw,3.5rem);line-height:1.1;margin-bottom:1.2rem
+}
+.section-title em{color:#C9A84C;font-style:italic}
+.section-body{font-size:1rem;font-weight:300;color:rgba(255,255,255,.7);line-height:1.8;max-width:580px}
+
+/* ── PROLOGUE ── */
+.prologue{background:#F5F0E8;color:#0D1B2A}
+.prologue .section-title{color:#0D1B2A}
+.prologue .section-body{color:#4A4A4A}
+.prologue-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:3rem;gap:4rem;align-items:center}
+.prologue-quote{
+  font-family:'Georgia',serif;font-size:1.6rem;
+  font-style:italic;line-height:1.6;color:#0D1B2A;
+  border-left:4px solid #C9A84C;padding-left:1.5rem;margin-bottom:2rem
+}
+.prologue-quote cite{
+  display:block;margin-top:.8rem;font-size:.85rem;
+  font-style:normal;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;
+  font-weight:600;letter-spacing:.1em;color:#a07830
+}
+.prologue-stats{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:3rem;gap:1.5rem}
+.pstat{padding:1.2rem;background:#0D1B2A;border-left:3px solid #C9A84C}
+.pstat-num{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;font-weight:800;
+  font-size:2rem;color:#C9A84C;line-height:1
+}
+.pstat-label{font-size:.8rem;color:rgba(255,255,255,.6);margin-top:.3rem;letter-spacing:.05em}
+
+/* ── PRODUCTS ── */
+.products{background:#111f30}
+.products-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:3rem;gap:2rem;margin-top:3rem}
+.product-card{
+  position:relative;overflow:hidden;
+  border:1px solid rgba(201,168,76,.2);
+  transition:transform .3s,border-color .3s;
+  background:linear-gradient(135deg,rgba(201,168,76,.04) 0%,transparent 60%)
+}
+.product-card:hover{transform:translateY(-6px);border-color:rgba(201,168,76,.5)}
+.product-card-header{
+  padding:2rem 2rem 1.5rem;
+  border-bottom:1px solid rgba(201,168,76,.15)
+}
+.product-phase{
+  display:inline-block;
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;font-weight:700;
+  font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;
+  color:#0D1B2A;background:#C9A84C;
+  padding:.3rem .8rem;margin-bottom:1rem
+}
+.product-card-title{
+  font-family:'Georgia',serif;font-weight:700;
+  font-size:1.8rem;line-height:1.15;color:#FFFFFF;margin-bottom:.5rem
+}
+.product-card-sub{font-size:.85rem;color:rgba(255,255,255,.5);font-weight:300}
+.product-card-body{padding:1.5rem 2rem 2rem}
+.product-topics{list-style:none;margin-bottom:2rem}
+.product-topics li{
+  padding:.55rem 0;border-bottom:1px solid rgba(255,255,255,.06);
+  font-size:.88rem;color:rgba(255,255,255,.75);font-weight:300;
+  display:flex;align-items:flex-start;gap:.6rem
+}
+.product-topics li::before{
+  content:'→';color:#C9A84C;font-weight:700;flex-shrink:0;margin-top:.05rem
+}
+.product-price{
+  display:flex;align-items:baseline;gap:.5rem;margin-bottom:1.5rem
+}
+.price-label{font-size:.75rem;color:#888888;letter-spacing:.1em;text-transform:uppercase}
+.price-value{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;font-weight:800;
+  font-size:2.2rem;color:#C9A84C;line-height:1
+}
+.price-per{font-size:.85rem;color:rgba(255,255,255,.4)}
+.product-btn{
+  display:block;width:100%;text-align:center;
+  background:#C9A84C;color:#0D1B2A;
+  font-weight:700;font-size:.85rem;letter-spacing:.12em;text-transform:uppercase;
+  padding:.9rem;text-decoration:none;
+  transition:all .2s
+}
+.product-btn:hover{background:#E8C97A}
+.product-btn.outline{
+  background:transparent;color:#C9A84C;border:2px solid #C9A84C
+}
+.product-btn.outline:hover{background:#C9A84C;color:#0D1B2A}
+.product-ribbon{
+  position:absolute;top:1rem;right:-1.5rem;
+  background:#C9A84C;color:#0D1B2A;
+  font-size:.65rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;
+  padding:.3rem 2rem;transform:rotate(15deg);
+  box-shadow:0 2px 8px rgba(0,0,0,.3)
+}
+.combo-card{
+  grid-column:1/-1;
+  border:1px solid rgba(201,168,76,.4);
+  background:linear-gradient(135deg,rgba(201,168,76,.08),transparent);
+  padding:2rem;display:flex;align-items:center;justify-content:space-between;gap:2rem;
+  flex-wrap:wrap;
+  transition:border-color .3s
+}
+.combo-card:hover{border-color:#C9A84C}
+.combo-left .combo-tag{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;font-weight:700;
+  font-size:.7rem;letter-spacing:.3em;color:#C9A84C;text-transform:uppercase;margin-bottom:.5rem
+}
+.combo-title{
+  font-family:'Georgia',serif;font-weight:700;
+  font-size:1.6rem;color:#FFFFFF;margin-bottom:.3rem
+}
+.combo-sub{font-size:.85rem;color:rgba(255,255,255,.5)}
+.combo-right{display:flex;align-items:center;gap:2rem;flex-wrap:wrap}
+.combo-price{text-align:center}
+.combo-old{font-size:.85rem;color:#888888;text-decoration:line-through}
+.combo-new{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;font-weight:800;
+  font-size:2.6rem;color:#C9A84C;line-height:1
+}
+.combo-save{
+  font-size:.7rem;background:#C9A84C;color:#0D1B2A;
+  font-weight:700;padding:.2rem .6rem;letter-spacing:.1em;display:inline-block;margin-top:.3rem
+}
+
+/* ── CHAPTERS PREVIEW ── */
+.chapters{background:#F5F0E8;color:#0D1B2A}
+.chapters .section-title{color:#0D1B2A}
+.chapters-tabs{display:flex;gap:0;margin-bottom:2.5rem;border-bottom:2px solid #ede8df}
+.tab-btn{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;font-weight:700;
+  font-size:.85rem;letter-spacing:.15em;text-transform:uppercase;
+  padding:.8rem 1.8rem;background:none;border:none;cursor:pointer;
+  color:#888888;border-bottom:2px solid transparent;margin-bottom:-2px;
+  transition:all .2s
+}
+.tab-btn.active{color:#0D1B2A;border-bottom-color:#C9A84C}
+.tab-content{display:none}
+.tab-content.active{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem}
+.chapter-item{
+  padding:1rem 1.2rem;
+  border-left:3px solid #C9A84C;background:#FFFFFF;
+  display:flex;gap:.8rem;align-items:flex-start
+}
+.chapter-num{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;font-weight:800;
+  font-size:1.3rem;color:#C9A84C;line-height:1;flex-shrink:0
+}
+.chapter-info{}
+.chapter-title{font-weight:700;font-size:.9rem;color:#0D1B2A;line-height:1.3}
+.chapter-sub{font-size:.78rem;color:#888888;margin-top:.2rem}
+
+/* ── STORY ── */
+.story{background:linear-gradient(135deg,#0D1B2A 0%,#0a1929 100%)}
+.story-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:5rem;align-items:center}
+.story-img-wrap{position:relative}
+.story-frame{
+  border:1px solid rgba(201,168,76,.3);padding:1.5rem;
+  background:rgba(201,168,76,.03)
+}
+.story-placeholder{
+  width:100%;aspect-ratio:3/4;
+  background:linear-gradient(135deg,rgba(201,168,76,.1),rgba(27,79,114,.2));
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem
+}
+.story-placeholder-icon{font-size:4rem;filter:grayscale(1) opacity(.4)}
+.story-placeholder-text{font-size:.75rem;color:rgba(255,255,255,.3);letter-spacing:.15em;text-transform:uppercase}
+.story-accent{
+  position:absolute;bottom:-1.5rem;right:-1.5rem;
+  background:#C9A84C;padding:1rem 1.5rem;
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;font-weight:800;
+  font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:#0D1B2A
+}
+.story-list{list-style:none;margin:1.5rem 0 2rem}
+.story-list li{
+  padding:.7rem 0;border-bottom:1px solid rgba(255,255,255,.07);
+  font-size:.95rem;font-weight:300;color:rgba(255,255,255,.75);
+  display:flex;gap:.8rem;align-items:flex-start
+}
+.story-list li span{color:#C9A84C;font-weight:700;flex-shrink:0}
+
+
+
+/* ── FAQ ── */
+.faq{background:#111f30}
+.faq-grid{max-width:750px;margin:2.5rem auto 0}
+.faq-item{border-bottom:1px solid rgba(255,255,255,.08)}
+.faq-question{
+  width:100%;background:none;border:none;cursor:pointer;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1.2rem 0;text-align:left;
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;font-weight:600;font-size:.95rem;
+  color:#FFFFFF;gap:1rem
+}
+.faq-question .icon{
+  color:#C9A84C;font-size:1.2rem;flex-shrink:0;
+  transition:transform .3s
+}
+.faq-item.open .faq-question .icon{transform:rotate(45deg)}
+.faq-answer{
+  max-height:0;overflow:hidden;transition:max-height .35s ease;
+  font-size:.9rem;color:rgba(255,255,255,.6);font-weight:300;line-height:1.8
+}
+.faq-item.open .faq-answer{max-height:200px}
+.faq-answer-inner{padding-bottom:1.2rem}
+
+/* ── FINAL CTA ── */
+.final-cta{
+  background:#C9A84C;color:#0D1B2A;
+  text-align:center;padding:5rem 2rem
+}
+.final-cta .section-title{color:#0D1B2A;font-size:clamp(2rem,4vw,3.2rem)}
+.final-cta .section-body{color:rgba(13,27,42,.7);margin:1rem auto 2.5rem}
+.btn-dark{
+  display:inline-flex;align-items:center;gap:.6rem;
+  background:#0D1B2A;color:#FFFFFF;
+  font-weight:700;font-size:.9rem;letter-spacing:.12em;text-transform:uppercase;
+  padding:1rem 2.5rem;text-decoration:none;transition:all .25s
+}
+.btn-dark:hover{background:#162436;transform:translateY(-2px)}
+
+/* ── FOOTER ── */
+footer{
+  background:#0D1B2A;border-top:1px solid rgba(201,168,76,.15);
+  padding:2rem;text-align:center
+}
+.footer-brand{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;font-weight:700;
+  font-size:1rem;letter-spacing:.25em;color:#C9A84C;margin-bottom:.5rem
+}
+.footer-copy{font-size:.78rem;color:rgba(255,255,255,.3)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  nav{padding:1rem 1.5rem}
+  .prologue-grid,.products-grid,.story-grid{grid-template-columns:1fr}
+  .combo-card{flex-direction:column}
+  .chapters-tabs{flex-wrap:wrap}
+  .tab-content.active{grid-template-columns:1fr}
+}
+</style>
+
+</head>
+<body>
+
+<!-- NAV -->
+
+<nav>
+  <div class="nav-logo">
+    <div class="nav-logo-mark">R9</div>
+    <span class="nav-brand">RENOVE</span>
+  </div>
+  <div style="display:flex;gap:.6rem"><a href="https://pay.hotmart.com/T105809682O" class="nav-cta" style="font-size:.72rem;padding:.45rem 1rem">📘 Fase 1</a><a href="https://pay.hotmart.com/R105832827I" class="nav-cta" style="font-size:.72rem;padding:.45rem 1rem;background:transparent;border:2px solid #C9A84C;color:#C9A84C">📗 Fase 2</a></div>
+</nav>
+
+<!-- HERO -->
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-stars" id="stars"></div>
+  <div class="eu-ring"></div>
+
+  <div class="hero-eyebrow">Renove · Guia Definitivo Europa</div>
+
+  <div class="hero-flag-row">
+    <div class="flag-item">
+      <span class="flag-emoji">🇧🇷</span>
+      <span class="flag-label">Brasil</span>
+    </div>
+    <span class="arrow-sep">→</span>
+    <div class="flag-item">
+      <span class="flag-emoji">🇪🇺</span>
+      <span class="flag-label">Europa</span>
+    </div>
+  </div>
+
+  <h1 class="hero-title">
+    Tudo que você precisa<br/>
+    para <span>viver e empreender</span><br/>
+    na Europa
+  </h1>
+  <p class="hero-subtitle">
+    Dois guias completos criados por quem saiu de Minas Gerais e construiu 
+    uma empresa transnacional em Munique. Do zero ao negócio consolidado.
+  </p>
+
+  <div class="hero-cta-group">
+    <a href="https://pay.hotmart.com/T105809682O" class="btn-primary">
+      📘 Guia Fase 1
+    </a>
+    <a href="https://pay.hotmart.com/R105832827I" class="btn-primary" style="background:transparent;border:2px solid #C9A84C;color:#C9A84C">
+      📗 Guia Fase 2
+    </a>
+  </div>
+
+  <div class="hero-badge">
+    <div class="badge-item"><strong>2</strong> Guias</div>
+    <div class="badge-sep"></div>
+    <div class="badge-item"><strong>54+</strong> Páginas</div>
+    <div class="badge-sep"></div>
+    <div class="badge-item"><strong>27</strong> Capítulos</div>
+    <div class="badge-sep"></div>
+    <div class="badge-item"><strong>8</strong> Países</div>
+  </div>
+</section>
+
+<div class="gold-line"></div>
+
+<!-- PROLOGUE / CREDIBILITY -->
+
+<section class="prologue" id="historia">
+  <div class="container">
+    <div class="prologue-grid">
+      <div>
+        <div class="section-label">Quem está por trás</div>
+        <h2 class="section-title">De <em>Minas Gerais</em><br/>a Munique</h2>
+        <blockquote class="prologue-quote">
+          "Trabalhei 6 meses em uma fábrica em Portugal. Juntei cada euro com propósito. 
+          Abri minha empresa. Hoje a Renove opera em toda a Europa."
+          <cite>— Lucas, Fundador da Renove · 25 anos · Munique, Alemanha</cite>
+        </blockquote>
+        <p class="section-body" style="margin-bottom:1.5rem">
+          Em 2023, Lucas saiu de Minas Gerais sem nenhum contato na Europa — 
+          apenas determinação e um espírito empreendedor que nunca parou de gritar. 
+          Dois países, dois anos, e uma empresa transnacional depois, 
+          a Renove nasceu para mostrar que esse caminho é possível para qualquer brasileiro.
+        </p>
+        <p class="section-body">
+          Estes guias não foram escritos por consultores ou acadêmicos. 
+          Foram escritos por quem viveu cada linha na prática.
+        </p>
+      </div>
+      <div>
+        <div class="prologue-stats">
+          <div class="pstat">
+            <div class="pstat-num">2023</div>
+            <div class="pstat-label">Saiu do Brasil com um sonho</div>
+          </div>
+          <div class="pstat">
+            <div class="pstat-num">6 meses</div>
+            <div class="pstat-label">Trabalhando para juntar capital</div>
+          </div>
+          <div class="pstat">
+            <div class="pstat-num">2 países</div>
+            <div class="pstat-label">Portugal → Alemanha</div>
+          </div>
+          <div class="pstat">
+            <div class="pstat-num">27 países</div>
+            <div class="pstat-label">Parceiros em toda a Europa</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gold-line"></div>
+
+<!-- PRODUCTS -->
+
+<section class="products" id="produtos">
+  <div class="container">
+    <div class="section-label">Os Guias</div>
+    <h2 class="section-title">Escolha a sua <em>fase</em></h2>
+
+```
+<div class="products-grid">
+
+  <!-- FASE 1 -->
+  <div class="product-card">
+    <div class="product-ribbon">Mais Vendido</div>
+    <div class="product-card-header">
+      <div class="product-phase">Fase 1 · Quem está no Brasil</div>
+      <h3 class="product-card-title">Do Brasil<br/>Para a Europa</h3>
+      <p class="product-card-sub">O Guia Definitivo para quem quer vir</p>
+    </div>
+    <div class="product-card-body">
+      <ul class="product-topics">
+        <li>Todos os tipos de visto para 8 países europeus</li>
+        <li>Como planejar a viagem e a chegada</li>
+        <li>Primeiros dias: moradia, documentos, sobrevivência</li>
+        <li>Trabalhar contratado enquanto empreende nas horas vagas</li>
+        <li>As 10 pegadinhas que custam caro</li>
+        <li>Custos reais e orçamento mensal detalhado</li>
+        <li>Prólogo com a história real de Lucas</li>
+        <li>Checklist completo com 50+ itens</li>
+      </ul>
+      <div class="product-price">
+        <div>
+          <div class="price-label">Por apenas</div>
+          <div class="price-value">R$ 29,90</div>
+          <div class="price-per">pagamento único · acesso imediato</div>
+        </div>
+      </div>
+      <a href="https://pay.hotmart.com/T105809682O" class="product-btn">Quero o Guia Fase 1 →</a>
+    </div>
+  </div>
+
+  <!-- FASE 2 -->
+  <div class="product-card">
+    <div class="product-ribbon" style="background:#1A7A4A">Para Europa</div>
+    <div class="product-card-header">
+      <div class="product-phase">Fase 2 · Quem já está na Europa</div>
+      <h3 class="product-card-title">Empreender<br/>na Europa</h3>
+      <p class="product-card-sub">O Guia Completo para imigrantes empreendedores</p>
+    </div>
+    <div class="product-card-body">
+      <ul class="product-topics">
+        <li>Abertura de empresa em 7 países europeus</li>
+        <li>Trabalho autônomo vs contratado na Europa</li>
+        <li>Tributação europeia explicada de forma simples</li>
+        <li>Guia de idiomas: Alemão, Inglês, Francês e Espanhol</li>
+        <li>Saúde, educação e reagrupamento familiar</li>
+        <li>Investimentos e previdência em euro</li>
+        <li>Capítulo especial: Empreender na Alemanha</li>
+        <li>Mentoria e consultoria com Lucas Esteves</li>
+      </ul>
+      <div class="product-price">
+        <div>
+          <div class="price-label">Por apenas</div>
+          <div class="price-value">€ 9,90</div>
+          <div class="price-per">pagamento único · para quem está na Europa</div>
+        </div>
+      </div>
+      <a href="https://pay.hotmart.com/R105832827I" class="product-btn outline">Quero o Guia Fase 2 →</a>
+    </div>
+  </div>
+
+</div>
+```
+
+  </div>
+</section>
+
+<div class="gold-line"></div>
+
+<!-- CHAPTERS PREVIEW -->
+
+<section class="chapters">
+  <div class="container">
+    <div class="section-label">Conteúdo</div>
+    <h2 class="section-title">O que você vai <em>aprender</em></h2>
+    <div class="chapters-tabs">
+      <button class="tab-btn active" onclick="switchTab('fase1',this)">Guia Fase 1</button>
+      <button class="tab-btn" onclick="switchTab('fase2',this)">Guia Fase 2</button>
+    </div>
+
+```
+<div class="tab-content active" id="tab-fase1">
+  <div class="chapter-item"><div class="chapter-num">PR</div><div class="chapter-info"><div class="chapter-title">Prólogo — A História de Lucas</div><div class="chapter-sub">Do interior de Minas à empresa transnacional</div></div></div>
+  <div class="chapter-item"><div class="chapter-num">01</div><div class="chapter-info"><div class="chapter-title">Por Que a Europa?</div><div class="chapter-sub">O sonho que vale a pena e a mentalidade certa</div></div></div>
+  <div class="chapter-item"><div class="chapter-num">02</div><div class="chapter-info"><div class="chapter-title">Planejamento Antes de Sair</div><div class="chapter-sub">Documentos, finanças e reserva mínima</div></div></div>
+  <div class="chapter-item"><div class="chapter-num">03</div><div class="chapter-info"><div class="chapter-title">Vistos Europeus — Guia Completo</div><div class="chapter-sub">Todos os tipos, Schengen, pegadinhas</div></div></div>
+  <div class="chapter-item"><div class="chapter-num">04</div><div class="chapter-info"><div class="chapter-title">Vistos por País</div><div class="chapter-sub">DE, PT, ES, FR, IT, BE, NL, CH — detalhes</div></div></div>
+  <div class="chapter-item"><div class="chapter-num">05</div><div class="chapter-info"><div class="chapter-title">Viagem: Da Passagem à Chegada</div><div class="chapter-sub">Passagens baratas, bagagem e aeroporto</div></div></div>
+  <div class="chapter-item"><div class="chapter-num">06</div><div class="chapter-info"><div class="chapter-title">Primeiros Dias na Europa</div><div class="chapter-sub">Chip, conta bancária, moradia e transporte</div></div></div>
+  <div class="chapter-item"><div class="chapter-num">07</div><div class="chapter-info"><div class="chapter-title">Documentação e Legalização</div><div class="chapter-sub">NIF, Anmeldung, residência, seguridade social</div></div></div>
+  <div class="chapter-item"><div class="chapter-num">08</div><div class="chapter-info"><div class="chapter-title">Trabalhando na Europa</div><div class="chapter-sub">CLT europeu, autônomo e início rápido</div></div></div>
+  <div class="chapter-item"><div class="chapter-num">09</div><div class="chapter-info"><div class="chapter-title">A Estratégia dos Dois Momentos</div><div class="chapter-sub">Trabalhar contratado e empreender nas horas vagas</div></div></div>
+  <div class="chapter-item"><div class="chapter-num">10</div><div class="chapter-info"><div class="chapter-title">Empreendedorismo — Fase 1</div><div class="chapter-sub">Primeiros passos com baixo investimento</div></div></div>
+  <div class="chapter-item"><div class="chapter-num">11</div><div class="chapter-info"><div class="chapter-title">Pegadinhas que Custam Caro</div><div class="chapter-sub">10 erros graves que ninguém te conta</div></div></div>
+  <div class="chapter-item"><div class="chapter-num">12</div><div class="chapter-info"><div class="chapter-title">Custos Reais da Vida na Europa</div><div class="chapter-sub">Orçamento detalhado por país e perfil</div></div></div>
+  <div class="chapter-item"><div class="chapter-num">13</div><div class="chapter-info"><div class="chapter-title">Comunidades e Redes de Apoio</div><div class="chapter-sub">Onde encontrar brasileiros e parceiros</div></div></div>
+  <div class="chapter-item"><div class="chapter-num">14</div><div class="chapter-info"><div class="chapter-title">Sua Rota para a Europa</div><div class="chapter-sub">Quando e como dar o próximo passo</div></div></div>
+  <div class="chapter-item"><div class="chapter-num">15</div><div class="chapter-info"><div class="chapter-title">Checklist Completo Fase 1</div><div class="chapter-sub">50+ itens para você não esquecer nada</div></div></div>
+</div>
+
+<div class="tab-content" id="tab-fase2">
+  <div class="chapter-item"><div class="chapter-num">01</div><div class="chapter-info"><div class="chapter-title">Por Que Empreender na Europa?</div><div class="chapter-sub">Vantagens, contexto e o momento certo</div></div></div>
+  <div class="chapter-item"><div class="chapter-num">02</div><div class="chapter-info"><div class="chapter-title">Vistos e Imigração</div><div class="chapter-sub">Tipos de visto, documentos e alertas</div></div></div>
+  <div class="chapter-item"><div class="chapter-num">03</div><div class="chapter-info"><div class="chapter-title">Escolhendo o País Certo</div><div class="chapter-sub">Comparativo de 7 países</div></div></div>
+  <div class="chapter-item"><div class="chapter-num">04</div><div class="chapter-info"><div class="chapter-title">Abrindo Sua Empresa</div><div class="chapter-sub">GmbH, LDA, OÜ, BV e passo a passo</div></div></div>
+  <div class="chapter-item"><div class="chapter-num">05</div><div class="chapter-info"><div class="chapter-title">Mercado e Oportunidades</div><div class="chapter-sub">5 setores com alto potencial para brasileiros</div></div></div>
+  <div class="chapter-item"><div class="chapter-num">06</div><div class="chapter-info"><div class="chapter-title">Finanças e Bancos</div><div class="chapter-sub">Contas, saída fiscal e tributação</div></div></div>
+  <div class="chapter-item"><div class="chapter-num">07</div><div class="chapter-info"><div class="chapter-title">Networking e Ecossistema</div><div class="chapter-sub">Web Summit, Slush e comunidades</div></div></div>
+  <div class="chapter-item"><div class="chapter-num">08</div><div class="chapter-info"><div class="chapter-title">Erros Comuns</div><div class="chapter-sub">7 armadilhas que derrubam empreendedores</div></div></div>
+  <div class="chapter-item"><div class="chapter-num">09</div><div class="chapter-info"><div class="chapter-title">Comparativo de Custos</div><div class="chapter-sub">10 cidades, solteiro e família</div></div></div>
+  <div class="chapter-item"><div class="chapter-num">10</div><div class="chapter-info"><div class="chapter-title">Guia de Alemão</div><div class="chapter-sub">+70 frases para o dia a dia e negócios</div></div></div>
+  <div class="chapter-item"><div class="chapter-num">11</div><div class="chapter-info"><div class="chapter-title">Saúde e Plano Médico</div><div class="chapter-sub">GKV, PKV e sistemas por país</div></div></div>
+  <div class="chapter-item"><div class="chapter-num">12</div><div class="chapter-info"><div class="chapter-title">Educação e Escolas</div><div class="chapter-sub">Escolas públicas, internacionais e matrículas</div></div></div>
+  <div class="chapter-item"><div class="chapter-num">13</div><div class="chapter-info"><div class="chapter-title">Reagrupamento Familiar</div><div class="chapter-sub">Trazer cônjuge e filhos passo a passo</div></div></div>
+  <div class="chapter-item"><div class="chapter-num">14</div><div class="chapter-info"><div class="chapter-title">Investimentos e Previdência</div><div class="chapter-sub">ETFs, imóveis e aposentadoria em euro</div></div></div>
+  <div class="chapter-item"><div class="chapter-num">★</div><div class="chapter-info"><div class="chapter-title">Empreender na Alemanha — Renove</div><div class="chapter-sub">Capítulo especial com experiência real</div></div></div>
+  <div class="chapter-item"><div class="chapter-num">16</div><div class="chapter-info"><div class="chapter-title">Checklist Final</div><div class="chapter-sub">Roteiro de ação completo</div></div></div>
+</div>
+```
+
+  </div>
+</section>
+
+<div class="gold-line"></div>
+
+<!-- FAQ -->
+
+<section class="faq">
+  <div class="container">
+    <div class="section-label" style="text-align:center">Dúvidas Frequentes</div>
+    <h2 class="section-title" style="text-align:center">Perguntas <em>e Respostas</em></h2>
+    <div class="faq-grid">
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Para quem é o Guia Fase 1?
+          <span class="icon">+</span>
+        </button>
+        <div class="faq-answer"><div class="faq-answer-inner">Para qualquer brasileiro que está no Brasil e quer vir para a Europa — seja para trabalhar, morar ou empreender. Não precisa ter nenhuma experiência anterior com imigração.</div></div>
+      </div>
+
+```
+  </div>
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggleFaq(this)">
+      As informações são atualizadas?
+      <span class="icon">+</span>
+    </button>
+    <div class="faq-answer"><div class="faq-answer-inner">Sim. Os guias são baseados em pesquisa atualizada de 2026 e na experiência real da Renove, com operações ativas em toda a Europa. Vistos, custos e legislação refletem o cenário atual.</div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggleFaq(this)">
+      Como recebo o material após a compra?
+      <span class="icon">+</span>
+    </button>
+    <div class="faq-answer"><div class="faq-answer-inner">Imediatamente após a confirmação do pagamento, você recebe o link de download por e-mail. O material é um PDF de alta qualidade que pode ser lido no celular, tablet ou computador.</div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggleFaq(this)">
+      O guia é atualizado?
+      <span class="icon">+</span>
+    </button>
+    <div class="faq-answer"><div class="faq-answer-inner">Sim! O guia é baseado em pesquisa atualizada de 2026 e na experiência real da Renove, com operações ativas em toda a Europa.</div></div>
+  </div>
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggleFaq(this)">
+      A Renove oferece consultoria além dos e-books?
+      <span class="icon">+</span>
+    </button>
+    <div class="faq-answer"><div class="faq-answer-inner">Sim! A Renove oferece consultoria presencial e online para empreendedores brasileiros em toda a Europa. Entre em contato após a compra para saber mais sobre esse serviço.</div></div>
+  </div>
+</div>
+```
+
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+
+<section class="final-cta">
+  <div class="container">
+    <div class="section-label" style="color:#0D1B2A;opacity:.6">Sua hora é agora</div>
+    <h2 class="section-title">Pronto para <em style="color:#0D1B2A;font-style:italic">começar</em><br/>sua jornada europeia?</h2>
+    <p class="section-body" style="margin:1rem auto 2.5rem;max-width:500px">
+      Centenas de brasileiros e imigrantes já usaram estes guias para transformar o sonho europeu em realidade. Agora é a sua vez.
+    </p>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center"><a href="https://pay.hotmart.com/T105809682O" class="btn-dark">📘 Guia Fase 1 — R$ 29,90</a><a href="https://pay.hotmart.com/R105832827I" class="btn-dark" style="background:#1A7A4A">📗 Guia Fase 2 — € 9,90</a></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+
+<footer>
+  <div class="footer-brand">RENOVE</div>
+  <div class="footer-copy">© 2026 Renove · Todos os direitos reservados · Munique, Alemanha</div>
+</footer>
+
+<script>
+// Stars
+const starsContainer = document.getElementById('stars');
+for(let i=0;i<60;i++){
+  const s=document.createElement('div');
+  s.className='star';
+  const size=Math.random()*3+1;
+  s.style.cssText=`
+    width:${size}px;height:${size}px;
+    top:${Math.random()*100}%;left:${Math.random()*100}%;
+    --d:${2+Math.random()*4}s;
+    animation-delay:${Math.random()*4}s
+  `;
+  starsContainer.appendChild(s);
+}
+
+// Tabs
+function switchTab(id,btn){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// FAQ
+function toggleFaq(btn){
+  const item=btn.parentElement;
+  const isOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+  if(!isOpen) item.classList.add('open');
+}
+
+// Scroll reveal
+const observer=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.style.opacity='1';
+      e.target.style.transform='translateY(0)';
+    }
+  });
+},{threshold:0.1});
+document.querySelectorAll('.product-card,.chapter-item,.pstat,.faq-item').forEach(el=>{
+  el.style.opacity='0';
+  el.style.transform='translateY(20px)';
+  el.style.transition='opacity .5s ease, transform .5s ease';
+  observer.observe(el);
+});
+</script>
+
+</body>
+</html>
